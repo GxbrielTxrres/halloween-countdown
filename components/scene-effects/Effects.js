@@ -1,7 +1,6 @@
 import { Bloom, EffectComposer, GodRays } from "@react-three/postprocessing";
 import Backlight from "./Backlight";
 import { useEffect, useRef, useState } from "react";
-import { button, useControls } from "leva";
 import gsap from "gsap";
 import Drunk from "./Drunk";
 import { useThree } from "@react-three/fiber";
@@ -25,14 +24,10 @@ export default function Effects() {
 		[0.0125, -1.0715, 0.011],
 		[0, 0, 5],
 	];
-	const colors = [
-		[3, 1, 0.2],
-		[4, 0.1, 2],
-		[4, 1, 0.4],
-	];
 
-	useControls({
-		setProg: button(() => {
+	useEffect(() => {
+		let timeout;
+		const interval = setInterval(() => {
 			//reset rotation
 			camera.rotation.set(0, 0, 0);
 
@@ -46,19 +41,32 @@ export default function Effects() {
 			});
 
 			//set camera position
-			setTimeout(() => {
+			timeout = setTimeout(() => {
 				camera.position.set(...positions[index.current]);
 				camera.rotation.set(...rotations[index.current]);
-				console.log(set);
 				//increase index until it needs to be reset
 				index.current >= positions.length - 1
 					? (index.current = 0)
 					: index.current++;
 			}, 2000);
-		}),
-	});
+		}, 10000);
+
+		return () => {
+			clearInterval(interval);
+			clearTimeout(timeout);
+		};
+	}, []);
 
 	useEffect(() => {
+		//intro animation
+		if (customEffect.current) {
+			gsap.to(customEffect.current.uniforms.get("progress"), {
+				value: 0,
+				duration: 2,
+				ease: "sine.out",
+			});
+		}
+
 		if (material) {
 			animateGodRays(godrays.current);
 		}
@@ -69,7 +77,6 @@ export default function Effects() {
 			<Backlight ref={set} />
 			{material && (
 				<EffectComposer disableNormalPass multisampling={0}>
-					{/* <ChromaticAberration /> */}
 					<Bloom
 						mipmapBlur
 						luminanceThreshold={0}
@@ -83,7 +90,7 @@ export default function Effects() {
 						decay={0}
 						blur
 					/>
-					<Drunk ref={customEffect} />
+					<Drunk ref={customEffect} progress={1} />
 				</EffectComposer>
 			)}
 		</>

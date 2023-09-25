@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");
+
+.container {
+	display: flex;
+	margin-left: 10px;
+	opacity: 0.4;
+	color: #7300ff;
+	letter-spacing: 0.5rem;
+	font-family: "Creepster";
+
+	text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6,
+		0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+}
+
+.days {
+	display: flex;
+	justify-self: center;
+	text-align: right;
+	align-items: center;
+}
+
+.child {
+	font-size: 15rem;
+	-webkit-text-stroke-width: 5px;
+	-webkit-text-stroke-color: #000000;
+}
+
+.label {
+	font-size: 2rem;
+	color: black;
+}
+
+/* Custom styles for small devices */
+@media screen and (max-width: 768px) {
+	.child {
+		font-size: 2rem;
+	}
+
+	.label {
+		font-size: 1rem;
+	}
+}
+
+/* Custom styles for medium devices */
+@media screen and (min-width: 992px) {
+	.child {
+		font-size: 8rem;
+	}
+
+	.label {
+		font-size: 1.4rem;
+	}
+}
+
+/* Custom styles for large devices */
+@media screen and (min-width: 1200px) {
+	.child {
+		font-size: 15rem;
+	}
+
+	.label {
+		font-size: 2rem;
+	}
+}
